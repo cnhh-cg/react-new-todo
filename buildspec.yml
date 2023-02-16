@@ -1,4 +1,10 @@
 version: 0.2
+
+env:
+  variables:
+    IMAGE_NAME: "latest"
+    ECR_URL: "should be passing in from the build"
+
 phases:
   install:
     commands:
