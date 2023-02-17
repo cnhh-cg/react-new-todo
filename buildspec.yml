@@ -12,8 +12,7 @@ phases:
       - echo install step...
       - echo try with braces ${IMAGE_NAME}
       - echo try with out $IMAGE_NAME
-      - echo try with more brace `${IMAGE_NAME}`
-      - echo Container Name `${CONTAINER_NAME}`
+      - echo Container Name ${CONTAINER_NAME}
   pre_build:
     commands:
       - echo logging in to AWS ECR...
@@ -28,9 +27,8 @@ phases:
       - echo build Docker image complete `date`
       - echo push latest Docker images to ECR...
       - docker push $ECR_URL:latest
-      - echo '[{"name":"`${CONTAINER_NAME}`","imageUri":"`${ECR_URL}`:latest"}]'
-      - echo '[{"name":"%s","imageUri":"%s"}]' $IMAGE_NAME $ECR_URL:latest
-      - printf '[{"name":"%s","imageUri":"%s"}]' $IMAGE_NAME $ECR_URL:latest > imagedefinitions.json
+      - echo '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $ECR_URL:latest
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $ECR_URL:latest > imagedefinitions.json
 artifacts:
   files: 
     - imagedefinitions.json     
