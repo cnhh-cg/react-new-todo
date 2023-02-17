@@ -68,3 +68,39 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+FROM node:16.18.1-alpine
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# command 
+RUN npm config set registry=https://cgrepo.capgroup.com/repository/cgnpm/
+RUN npm config set no-proxy=https://cgrepo.capgroup.com
+RUN npm config set strict-ssl=false
+
+
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN  npm install --silent
+# https://pz8ivsp57g.execute-api.us-west-2.amazonaws.com/development --silent
+
+RUN echo npm --version
+RUN npm install -g npm@9.5.0
+RUN  npm install react-scripts@3.4.1 -g --silent
+
+# add app
+COPY . ./
+
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
+
+# start app
+CMD ["npm", "start"]
+
+
