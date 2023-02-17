@@ -4,6 +4,7 @@ env:
   variables:
     IMAGE_NAME: "latest"
     ECR_URL: "should be passing in from the build"
+    CONTAINER_NAME: "name should match with the task definition: ch-todo-task-container"
 
 phases:
   install:
@@ -27,3 +28,7 @@ phases:
       - echo build Docker image complete `date`
       - echo push latest Docker images to ECR...
       - docker push $ECR_URL:latest
+      - printf '[{"name":"$CONTAINER_NAME","imageUri":"$ECR_URL:latest"}]' > imagedefinitions.json
+artifacts:
+  files: 
+    - imagedefinitions.json     
